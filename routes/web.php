@@ -32,4 +32,15 @@ Route::get('/home', function(){
 });
 
 /** Intake **/
+Route::get('intakes/{id}/destroy', 'IntakeController@destroy');
 Route::resource('intakes', 'IntakeController');
+
+/** Mutualities **/
+Route::get('mutualities/{id}/destroy', 'MutualityController@destroy');
+Route::resource('mutualities', 'MutualityController');
+
+/** Rooms **/
+Route::get('rooms/{id}/destroy', 'RoomController@destroy');
+Route::resource('rooms', 'RoomController');
+
+

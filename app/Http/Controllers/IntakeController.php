@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Intake;
 use Illuminate\Http\Request;
 use App\Http\Requests\IntakeRequest;
+use Illuminate\Support\Facades\DB;
 
 class IntakeController extends Controller
 {
@@ -20,7 +21,9 @@ class IntakeController extends Controller
      */
     public function index()
     {
-        //
+        $openstaand = Intake::where('openstaand', true)->paginate(10);
+        $uitgevoerd = Intake::where('openstaand', false)->paginate(10);
+        return view('intakes.index', compact('openstaand', 'uitgevoerd'));
     }
 
     /**
@@ -63,9 +66,10 @@ class IntakeController extends Controller
      * @param  \App\Intake  $intake
      * @return \Illuminate\Http\Response
      */
-    public function edit(Intake $intake)
+    public function edit($id)
     {
-        //
+      $intake = Intake::findOrFail($id);
+      return view('intakes.edit', compact('intake'));
     }
 
     /**
@@ -75,9 +79,11 @@ class IntakeController extends Controller
      * @param  \App\Intake  $intake
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Intake $intake)
+    public function update(IntakeRequest $request, $id)
     {
-        //
+         $intake = Intake::findOrFail($id);
+         $intake->update($request->all());
+         return redirect()->action('IntakeController@index');
     }
 
     /**
@@ -86,8 +92,9 @@ class IntakeController extends Controller
      * @param  \App\Intake  $intake
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Intake $intake)
+    public function destroy($id)
     {
-        //
+        Intake::destroy($id);
+        return redirect()->action('IntakeController@index');
     }
 }
