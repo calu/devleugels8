@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Hotel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HotelController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,10 @@ class HotelController extends Controller
      */
     public function index()
     {
-        //
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+
+        $hotels = DB::table('hotels')->paginate(10);
+        return view('hotels.index', compact('hotels')); 
     }
 
     /**

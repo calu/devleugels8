@@ -37,5 +37,18 @@
             ]
         )		
 	</div>
+    <div class="row">
+        @include(
+            'admin.partials.card',
+            [
+                'header' => 'hotel',
+                'icon' => 'fa-hotel',
+                'text' => 'Hier kan je de kamerbezetting bekijken. Let wel : wijzig geen kamer als er diensten geprogrammeerd staan.',
+                'button' => 'bewerk hotel',
+                'href' => '/hotels'
+            ]
+        )		
+        
+    </div>
 </div>
 @endsection

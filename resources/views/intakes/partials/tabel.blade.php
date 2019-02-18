@@ -27,7 +27,7 @@
 							edit
 						</a>
 						
-						<a class="btn btn-primary" href="/intakes/{{ $intake->id }}/createWithId" title="Wijzig de invoer" role="button">
+						<a class="btn btn-primary" href="/clients/{{ $intake->id }}/createWithId" title="Wijzig de invoer" role="button">
 							intake
 						</a>							
 						@endif

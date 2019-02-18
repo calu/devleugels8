@@ -6,12 +6,13 @@ use App\Room;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoomRequest;
 use Illuminate\Support\Facades\DB;
+use App\Helper;
 
 class RoomController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth',['except' => 'visualindex']);
     }
     
 
@@ -132,4 +133,34 @@ class RoomController extends Controller
         Room::destroy($id);
         return redirect('rooms'); 
     }
+    
+    /**
+     * de visual index biedt dezelfde informatie als index,
+     * maar ditmaal in een zeer visuele voorstelling
+     */
+    public function visualindex()
+    {
+        $rooms = DB::table('rooms')->paginate(10);
+        return view('rooms.visualindex', compact('rooms'));
+    }
+    
+    /**
+     * In de functie boekinfo zullen we berekenen welke
+     * kamers er vrij zijn op de opgegeven data, maar
+     * ook dan kijken welke kamers voor een bepaald type klant
+     * kan gekozen worden
+     */
+     
+     public function boekinfo(Request $request)
+     {
+         $helper = new Helper();
+         $freerooms = $helper->calcFreeRooms($request);
+
+         // Bekijk hier of de resterende kamers voor deze
+         // klant voldoen
+         
+         return view('rooms.boekinfo', compact('freerooms','request'));
+         
+     }
+     
 }

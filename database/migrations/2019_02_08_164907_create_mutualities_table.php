@@ -16,7 +16,7 @@ class CreateMutualitiesTable extends Migration
         Schema::create('mutualities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('naam');
-            $table->timestamps();
+            $table->timestamps();                      
         });
     }
 

@@ -12,5 +12,9 @@ class Intake extends Model
       'telefoon', 'gsm', 'email', 'rubriek', 'vraag',
       'openstaand' 
     ];
-
+    
+    public function client()
+    {
+          return $this->hasOne('\App\Client');
+    }
 }

@@ -26,7 +26,8 @@ Route::get('/home', function(){
        // een klant
        //   .. TODO : haal de klant_id op
        // en return naar ClientController@show -- toon de splash van de klant
-       dd('TODO ClientController@show');
+         $client = Auth::user()->client()->first();        
+         return redirect()->action('ClientController@show',['id' => $client->id]);   
    } else
         return view('adminhome'); // toon de splashscreen voor de admin
 });
@@ -40,7 +41,18 @@ Route::get('mutualities/{id}/destroy', 'MutualityController@destroy');
 Route::resource('mutualities', 'MutualityController');
 
 /** Rooms **/
+Route::get('rooms/visualindex', 'RoomController@visualindex');
 Route::get('rooms/{id}/destroy', 'RoomController@destroy');
+Route::post('rooms/boekinfo', 'RoomController@boekinfo');
+
 Route::resource('rooms', 'RoomController');
 
+/** Hotels **/
+Route::resource('hotels', 'HotelController');
 
+/** Clients **/
+Route::get('clients/{id}/createWithId', 'ClientController@createWithId');
+Route::resource('clients', 'ClientController');
+
+/** Service **/
+Route::resource('service', 'ServiceController');
