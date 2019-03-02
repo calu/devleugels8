@@ -17,7 +17,8 @@ class CreateServicesTable extends Migration
             $table->increments('id');
             $table->enum('soort',['hotel','dagverblijf','therapie']);
             $table->integer('user_id')->unsigned()->nullable();
-            $table->enum('status',['aangevraagd', 'actief', 'voorbij']);            
+            $table->enum('status',['aangevraagd', 'actief', 'voorbij']);  
+            $table->boolean('tewissen')->default(false);          
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users');

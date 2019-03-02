@@ -2,6 +2,7 @@
 	<div class="row">
 		<div class="col">
 			<div class="section_title_container text-center">
+				<div class="section_title"><h1>hotelverblijf</h1></div>
 				<div class="section_text">
 					Overnachten in de vleugels kan een aangename verrassing worden.
 					Als je geïnteresseerd bent kan je meer info bekomen door het formulier

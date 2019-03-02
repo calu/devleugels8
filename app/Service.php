@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     protected $fillable = [
-      'soort', 'user_id', 'status'  
+      'soort', 'user_id', 'status', 'tewissen'  
     ];
     
     public function hotels()
     {
-        return $this->belongsToMAny(Hotel::class)->withPivot('id');
+        return $this->belongsToMAny(Hotel::class)->withPivot('hotel_id');
     }  
     
     public function user()

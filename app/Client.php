@@ -25,4 +25,9 @@ class Client extends Model
     {
       return $this->belongsTo('\App\Mutuality');
     }
+    
+    public function intake()
+    {
+      return $this->belongsTo(Intake::class);
+    }
 }

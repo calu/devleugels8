@@ -1,7 +1,9 @@
 
 <script src="https://unpkg.com/vue"></script>
                 
-<script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+<!--script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
 <script src="{{ asset('styles/bootstrap-4.1.2/popper.js') }}"></script>
 <script src="{{ asset('styles/bootstrap-4.1.2/bootstrap.min.js') }}"></script>
 <script src="{{ asset('plugins/greensock/TweenMax.min.js') }}"></script>
@@ -16,3 +18,11 @@
 <script src="{{ asset('plugins/parallax-js-master/parallax.min.js') }}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>      
 <script src="{{ asset('js/custom.js') }}"></script>
+    
+    <script type="text/javascript">
+        $(window).load( function(){
+            $('#cookiemodal').modal('show');
+        });
+    </script> 
+    
+

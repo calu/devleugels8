@@ -1,5 +1,4 @@
 	<section class="our_room_area">
-
 			<div class="row align-items-center">
 				<div class="col-lg-6">
 					<div class="room_left">
@@ -34,17 +33,22 @@
 							</div>
 							@if ($choice)
 								@include('partials.formerror')
-								{!! Form::open(['url' => 'service']) !!}
-								<?php // dd($periode[0]) ?>
+								
+								{!! Form::open(['url' => 'roomservice']) !!}
+									
 									{!! Form::hidden('start', $periode[0]) !!}
 									{!! Form::hidden('einde', $periode[1]) !!}
 									{!! Form::hidden('kamernummer', $room->kamernummer) !!}
-									{!! Form::hidden('soort', 'hotel') !!}
+									{!! Form::hidden('soort', 'hotel') !!}	
 									<button type="submit" class="btn btn-primary">boek nu</button>
-   								<!-- a class="btn btn-primary" href="/service" role="button">boek nu</a -->
+										
 								{!! Form::close() !!}
 							@else
-   								<a class="btn btn-primary" href="#beschikbaarheid" role="button">bekijk beschikbaarheid</a>
+								@if (auth()->guest())
+									@include('partials.steljevraag') 
+								@else
+	   								<a class="btn btn-primary" href="#beschikbaarheid" role="button">bekijk beschikbaarheid</a>
+								@endif
 							@endif
 
 						</div>

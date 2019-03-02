@@ -32,6 +32,11 @@ Route::get('/home', function(){
         return view('adminhome'); // toon de splashscreen voor de admin
 });
 
+// de info
+Route::get('/info', function(){
+   return view('info');
+});
+
 /** Intake **/
 Route::get('intakes/{id}/destroy', 'IntakeController@destroy');
 Route::resource('intakes', 'IntakeController');
@@ -52,7 +57,19 @@ Route::resource('hotels', 'HotelController');
 
 /** Clients **/
 Route::get('clients/{id}/createWithId', 'ClientController@createWithId');
+Route::get('clients/{id}/showAsAdmin', 'ClientController@showAsAdmin');
+Route::get('clients/{id}/aanmelden', 'ClientController@aanmelden');
+Route::get('clients/{id}/afmelden', 'ClientController@afmelden');
 Route::resource('clients', 'ClientController');
 
 /** Service **/
+//Route::post('roomservice', 'ServiceController@store');
+Route::post('roomservice', 'ServiceController@roomservice');
+Route::get('service/{id}/bevestig', 'ServiceController@bevestig');
+Route::get('service/{id}/destroy', 'ServiceController@destroy');
+Route::get('service/{id}/vraagdestroy', 'ServiceController@vraagdestroy');
+Route::get('service/{id}/detail', 'ServiceController@detail');
 Route::resource('service', 'ServiceController');
+
+/** Events **/
+Route::get('events', 'EventController@index');

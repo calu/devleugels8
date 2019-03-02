@@ -5,7 +5,7 @@
 	<div class="container">
 		<h1 class="d-flex justify-content-center">Klantenfiche</h1>
 	</div>
-	
+	@include('partials.flash')
 	@include('clients.partials.fiches')
 	@include('clients.partials.diensten')
 </div>

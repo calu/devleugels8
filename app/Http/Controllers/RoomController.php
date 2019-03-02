@@ -155,9 +155,7 @@ class RoomController extends Controller
      {
          $helper = new Helper();
          $freerooms = $helper->calcFreeRooms($request);
-
-         // Bekijk hier of de resterende kamers voor deze
-         // klant voldoen
+         /* Bekijk hier of de resterende kamers voor deze klant voldoen */
          
          return view('rooms.boekinfo', compact('freerooms','request'));
          

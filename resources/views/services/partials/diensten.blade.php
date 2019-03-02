@@ -33,19 +33,52 @@
 				<td>{{ $hotel->begindatum }}</td>
 				<td>{{ $hotel->einddatum }}</td>
 				<td>
-					<a class="btn btn-primary" href="#" title="Wijzig de invoer" role="button">
+
+					@if (Auth::user()->isAdmin())
+					<a class="btn btn-primary" href="/service/{{ $dienst->id}}/edit" title="Wijzig de invoer" role="button">
 						edit
 					</a>
 						
 						&nbsp;
-						<a href="#" title="verwijder deze invoer">
+						<?php 
+							$url = '/service/'.$dienst->id.'/destroy'; 
+							$modal = 'dienstmodaladmin'.$dienst->id;
+							$modalx = '#'.$modal
+						?>
+						@include('partials.modal',['href' => $modal, 'url' => $url ])		
+
+						<button type="button"  class="btn btn-primary" data-toggle="modal" data-target= {{ $modalx }} />
 							wis
-						</a>
+						</button>
+
+						@if ($dienst->status == 'aangevraagd')
 						&nbsp;
-						<a href="#" title="bevestig deze invoer">
+						<a href="/service/{{ $dienst->id }}/bevestig" title="bevestig deze invoer">
 							bevestig
 						</a>
+						@endif
+					@else
+						<?php 
+							$url = '/service/'.$dienst->id.'/vraagdestroy'; 
+							$modal = 'vraagmodal'.$dienst->id;
+							$modalx = '#'.$modal;
+						?>
+						@include('partials.modal',['href' => $modal, 'url' => '/service/'.$dienst->id.'/vraagdestroy' ])		
 						
+						<?php
+							$enabled = "";
+							$wistekst = "vraag wissen aan";
+							if ( $dienst->tewissen){
+								$enabled = 'disabled=disabled';
+								$wistekst = "wissen aangevraagd";
+							}
+						?>
+						<button type="button"  class="btn btn-primary" data-toggle="modal" data-target={{ $modalx }} {{ $enabled }}>
+						{{ $wistekst }}
+						</button>
+						
+						<a class="btn btn-primary" href="/service/{{ $dienst->id }}/detail" role="button">detail</a>
+					@endif	
 				</td>
 			</tr>
 		@endforeach

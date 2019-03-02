@@ -3,6 +3,7 @@
 
 @section('content')
 <div class="super-container">
+
 	<h1>boekinfo rooms</h1>
 	<?php 
 		// we moeten $rooms geven ipv $freerooms
@@ -14,7 +15,7 @@
 		
 		// Je moet ook aangeven dat dit een boeking is en geen overzicht! 
 		$choice = true;
-		
+				
 		// We moeten nu ook de begin- en einddatum doorgeven. 
 		// Deze staat in de Request
 		$periode = [ $request->CheckIn, $request->CheckOut ];

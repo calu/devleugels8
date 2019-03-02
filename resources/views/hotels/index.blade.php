@@ -6,6 +6,11 @@
 	
 	<?php // dd($hotels->all()); ?>
 	@if(count($hotels->all()) > 0)
+	
+	@if(Auth::user()->admin)
+	<a class="btn btn-primary" href="/events" title="kalender">kalender</a>
+	<p>&nbsp;</p> 
+	@endif
 	<table class="table table-hover table-bordered table-sm table-primary text-dark">
 		<thead>
 			<th>kamernummer</th>
@@ -43,3 +48,4 @@
 	</a>	
 </div>
 @endsection
+

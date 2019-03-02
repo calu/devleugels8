@@ -36,7 +36,7 @@ class Helper
 				if (request()->session()->has('client_id'))
 				{
 				  $klant_id = request()->session()->get('client_id');
-				  $klant = \App\Client::findOrFail($klant_id)->get();
+				  $klant = \App\Client::findOrFail($klant_id);
 				  return $klant;
 				}
 				else { return null; }
@@ -93,7 +93,9 @@ class Helper
 	 */
 	 public function calcFreeRooms(Request $request)
 	 {
-		 
+		 $van = $request->CheckIn;
+		 $tot = $request->CheckOut;
+		 // echo "van = $van en tot = $tot<br />";
 		 // Haal de Kamer info op (Kamer) en stop het in een array
 		 $kamers = Room::all();
 		 $free = [];
@@ -101,11 +103,11 @@ class Helper
 		 {
 			 $free += [ $kamer->kamernummer => $kamer->aantal_bedden];
 		 }
-		 
-/*		 echo "Alle kamers<br />";
+		 /*
+		 echo "Alle kamers<br />";
 		 print_r($free);
 		 echo "<br />";
- */
+		 */
 		 // overloop de overnachtingen. In de periode opgegeven in de
 		 // Request haal je het kamernummer en verminder de waarde
 		 // met 1 in de overeenkomstige free
@@ -117,21 +119,38 @@ class Helper
 			 // nu moet je alles overlopen
 			 foreach ( $overnachtingen as $overnachting)
 			 {
+			// echo " overnachting = ".$overnachting."<br />";	 
 				$kamernummer = $overnachting->kamernummer;
-//			 echo " In kamer ".$kamernummer." zijn er nu nog ".$free[$kamernummer]." bedden vrij. <br />"; 
-				$free[$kamernummer]--;
+				// is deze kamer bezet tussen "van" tot en met "tot"
+				if (!$this->vrij($van,$tot, $overnachting)){
+					// echo "$kamernummer is niet vrij tussen $van / $tot<br />";
+					$free[$kamernummer]--;
+				}
 			 }
 			 
 			 // overloop nu free en verwijder alle kamers met aantal_bedden <= 0
 			 foreach ($free as $key=>$item)
 			 {
-//				  echo "item = ".$item."<br />";
+				  // echo "item = ".$item."<br />";
 				 if ($item <= 0) unset($free[$key]);
 				
 			 };
-//			 dd($free);
+			 // dd($free);
 		 }
-		 
+		 		 
 		 return $free;
 	 }
+	 
+	 public function vrij($van, $tot, $overnachting){		
+		$begindatum = $overnachting->begindatum;
+		$einddatum = $overnachting->einddatum;
+		
+		// echo "functie vrij : $van / $tot vgl met $begindatum / $einddatum<br >";
+		
+		$geenoverlap = ($tot < $begindatum && $van < $begindatum ) ||
+				   ($einddatum < $van && $begindatum < $van);
+	    return $geenoverlap;
+		
+		// https://stackoverflow.com/questions/13513932/algorithm-to-detect-overlapping-periods
+	 }	 
 }

@@ -26,7 +26,11 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+       abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+
+       $clients = DB::table('clients')->paginate(10);   
+       
+       return view('clients.index', compact('clients'));     
     }
 
     /**
@@ -118,9 +122,16 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit($id)
     {
-        //
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+
+        $client = Client::findOrFail($id);
+  //      dd($client);
+        $intake = \App\Intake::findOrFail( $client->intake_id);
+        $mutualities = Mutuality::all();
+        
+        return view('clients.edit', compact('client', 'intake', 'mutualities'));       
     }
 
     /**
@@ -130,9 +141,10 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(ClientRequest $request, $id)
     {
-        //
+        echo "client update request";
+        dd($request);
     }
 
     /**
@@ -157,6 +169,67 @@ class ClientController extends Controller
         $intake = Intake::findOrFail($id);
         $mutualities = Mutuality::all();
         return view('clients.create', compact('intake', 'mutualities'));         
+    }
+    
+    public function showAsAdmin($id)
+    {
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+        
+        $client = Client::findOrFail($id);
+        $intake = \App\Intake::findOrFail( $client->intake_id);       
+        return view('clients.show', compact('client','intake'));
+    }
+    
+    /*
+     * de functie aanmelden, zal gewoon de klant als klant in de
+     * sessie definiëren, zodat we bewerkingen in zijn naam kan
+     * doen.
+     *
+     * Deze bewerking mag je slechts uitvoeren als je als admin
+     * aangemeld bent.
+     *
+     * voer eerst een controle uit of er een andere als klant is
+     * aangemeld - als dat zo is, dan moet je die afmelden
+     *
+     * wellicht moet je de navbar herschrijven
+     */
+    public function aanmelden($id)
+    {
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+
+        // Is er een klant aangemeld?
+        if ( request()->session()->has('client_id')){
+            // ja, is het deze?
+            $session_id = request()->session()->get('client_id');
+            if ($id == $session_id)
+                // hier kan je in principe niet komen
+                return redirect()->action('ClientController@index');
+            // meld de klant af
+            request()->session()->pull('client_id', 'default');
+        }
+        
+        // stel deze klant in
+        session(['client_id' => $id]);
+        
+        return redirect('clients');
+        
+    }
+    
+    /*
+     * de functie afmelden, meld de klant met  $id af, dat wil zeggen
+     * dat je die uit de sessie verwijdert.
+     *
+     * misschien eerst testen of die aangemeld is?
+     * 
+     * wellicht moet je de navbar herschrijven
+     */
+    public function afmelden($id)
+    {
+       abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+        
+        request()->session()->pull('client_id', 'default');
+        return redirect('clients');
+        
     }
 
 }

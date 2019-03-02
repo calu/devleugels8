@@ -7,7 +7,9 @@
 	<?php $choice = false; ?>
 	@include('hotels.partials.banner')
 	@include('rooms.partials.warning')
-	@include('rooms.partials.beschikbaarheid')
+	@if (!auth()->guest())
+		@include('rooms.partials.beschikbaarheid')
+	@endif
 	@include('rooms.partials.tabel')
 	
 </div>

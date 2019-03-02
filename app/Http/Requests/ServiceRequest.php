@@ -24,10 +24,11 @@ class ServiceRequest extends FormRequest
     public function rules()
     {
         return [
-           'start' => 'required | date | after : today',
-           'einde' => 'required | date ', // moet later zijn dan start
-           'kamernummer' => 'required | digits_between:1,999',
-           'soort' => 'required'
+           'soort' => 'required',
+           'user_id' => 'required', 
+           'status' => 'required',
+           'tewissen' => 'required'
+
         ];
     }
 }

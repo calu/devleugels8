@@ -48,7 +48,29 @@
                 'href' => '/hotels'
             ]
         )		
-        
+ 
+        @include(
+            'admin.partials.card',
+            [
+                'header' => 'klanten',
+                'icon' => 'fa-wheelchair',
+                'text' => 'een overzicht van de klanten - met link naar contactpersoon',
+                'button' => 'bewerk klanten',
+                'href' => '/clients'
+            ]
+        )		
+ 
+        @include(
+            'admin.partials.card',
+            [
+                'header' => 'diensten',
+                'icon' => 'fa-shopping-cart',
+                'text' => 'een overzicht van alle diensten',
+                'button' => 'bewerk diensten',
+                'href' => '/service'
+            ]
+        )		
     </div>
+
 </div>
 @endsection
